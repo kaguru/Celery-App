@@ -1,6 +1,6 @@
-# SIMPLE CELERY APP
+# CELERY APP
 
-Simple Flask Celery Application
+A Simple Celery Application
 
 ## Docker Images Installation
 
