@@ -1,19 +1,31 @@
-# LNH AUTHENICATION SERVICE
+# SIMPLE CELERY APP
 
 Simple Flask Celery Application
-## Installation
 
-Use the package manager [pipenv](https://pypi.org/project/pipenv/) to install foobar.
+## Docker Images Installation
+
+```bash
+# REDIS DOCKER IMAGE
+docker pull redis
+
+# RABBITMQ DOCKER IMAGE
+docker pull rabbitmq
+```
+
+## Packages Installation
+
+Use the package manager [pipenv](https://pypi.org/project/pipenv/) to install packages.
 
 ```bash
 # ACTIVATE ENVIRONEMENT
 pipenv shell
 
 # INSTALL PACKAGES
-pipenv shell
+pipenv install
 ```
 
-## USAGE
+
+## Usage
 
 ```python
 # RUN RabbitMQ with Management Panel
@@ -25,12 +37,12 @@ docker run -p 6379:6379 redis
 # RUN Celery Worker
 celery -A tasks worker --loglevel=info
 
-# Monitor Redis
-docker exec -it <redis_container_id> bash
-redis-cli monitor
 
 # RUN APP
 python app.py
 
+# Monitor RedisServer
+docker exec -it <redis_container_id> bash
+redis-cli monitor
 
 ```

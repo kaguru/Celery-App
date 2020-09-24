@@ -14,5 +14,6 @@ def operator():
     RESULT IS READY AFTER GET:: {result_is_ready_after_get_ready}
     """)
 
+
 if __name__ == "__main__":
     operator()
