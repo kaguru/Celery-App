@@ -15,4 +15,7 @@ docker build -t ubuntu_18_pipenv_celery -f ./Dockerfile_base_celery .
 docker-compose build
 docker-compose up
 
+# Monitor RedisServer
+docker exec -it <redis_container_id> bash
+redis-cli monitor
 ```
