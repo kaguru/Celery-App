@@ -52,7 +52,7 @@ services:
   worker:
     build:
       context: "."
-    command: celery -A flask_app.jobs.tasks worker --loglevel=DEBUG
+    command: /usr/bin/supervisord -c supervisord.conf
     depends_on:
       - "web"
     env_file:
