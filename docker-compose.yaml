@@ -1,7 +1,6 @@
 version: '3.4'
 services:
   redis:
-    network_mode: host
     env_file:
       - ".env"
     image: "redis:5.0.4-stretch"
@@ -15,7 +14,6 @@ services:
       - "redis:/data"
 
   rabbit_mq:
-    network_mode: host
     env_file:
       - ".env"
     image: "rabbitmq:3-management"
@@ -24,18 +22,18 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD}"
+    depends_on:
+      - "redis"
     ports:
       - 5672:5672
       - 8080:15672
     expose:
       - 5672
       - 8080
-      - 15672
     volumes:
-      - "rabbit_mq:/data"
+      - "rabbit_mq:/var/lib/rabbitmq"
 
   web:
-    network_mode: host
     build:
       context: .
     deploy:
@@ -43,10 +41,24 @@ services:
       replicas: 2
     environment:
       SECRET_KEY: ${SECRET_KEY}
+      REDDIS_URL: ${REDDIS_URL}
+      RABBIT_MQ_URL: ${RABBIT_MQ_URL}
+    depends_on:
+      - "rabbit_mq"
     ports:
       - 5000:5000
     expose:
       - 5000
+  worker:
+    build:
+      context: "."
+    command: celery -A flask_app.jobs.tasks worker --loglevel=DEBUG
+    depends_on:
+      - "web"
+    env_file:
+      - ".env"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
 volumes:
   redis: {}
   rabbit_mq: {}
