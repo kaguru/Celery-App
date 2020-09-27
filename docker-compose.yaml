@@ -1,0 +1,52 @@
+version: '3.4'
+services:
+  redis:
+    network_mode: host
+    env_file:
+      - ".env"
+    image: "redis:5.0.4-stretch"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD}"
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    volumes:
+      - "redis:/data"
+
+  rabbit_mq:
+    network_mode: host
+    env_file:
+      - ".env"
+    image: "rabbitmq:3-management"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD}"
+    ports:
+      - 5672:5672
+      - 8080:15672
+    expose:
+      - 5672
+      - 8080
+      - 15672
+    volumes:
+      - "rabbit_mq:/data"
+
+  web:
+    network_mode: host
+    build:
+      context: .
+    deploy:
+      mode: replicated
+      replicas: 2
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+    ports:
+      - 5000:5000
+    expose:
+      - 5000
+volumes:
+  redis: {}
+  rabbit_mq: {}
