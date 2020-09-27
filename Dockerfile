@@ -7,6 +7,6 @@ COPY ./requirements.txt /requirements.txt
 
 RUN pip install -r requirements.txt
 
-CMD ["gunicorn", "-k", "gevent", "-w", "1", "--log-level", "warn", "-b", "0.0.0.0:5000", "flask_app:create_app()"]
+CMD ["gunicorn", "-k", "gevent", "-w", "1", "--log-level", "debug", "-b", "0.0.0.0:5000", "flask_app:create_app()"]
 
 EXPOSE 50010
