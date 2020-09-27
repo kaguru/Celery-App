@@ -14,14 +14,14 @@ docker pull rabbitmq
 
 ## Packages Installation
 
-Use the package manager [pipenv](https://pypi.org/project/pipenv/) to install packages.
+Use the package manager [pip](https://pypi.org/project/pip/) to install packages.
 
 ```bash
 # ACTIVATE ENVIRONEMENT
-pipenv shell
+source venv/bin/activate
 
 # INSTALL PACKAGES
-pipenv install
+pip install -r requirements.txt
 ```
 
 
