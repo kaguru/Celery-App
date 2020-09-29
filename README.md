@@ -20,5 +20,5 @@ docker exec -it <redis_container_id> bash
 redis-cli monitor
 ```
 
-# Trigger tasks
+## Trigger tasks
 [http://localhost:5000/add](http://localhost:5000/add)
