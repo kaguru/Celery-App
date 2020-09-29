@@ -34,6 +34,7 @@ services:
       - "rabbit_mq:/var/lib/rabbitmq"
 
   web:
+    network_mode: host
     build:
       context: .
     deploy:
@@ -41,8 +42,13 @@ services:
       replicas: 2
     environment:
       SECRET_KEY: ${SECRET_KEY}
-      REDDIS_URL: ${REDDIS_URL}
+      REDIS_URL: ${REDIS_URL}
       RABBIT_MQ_URL: ${RABBIT_MQ_URL}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     depends_on:
       - "rabbit_mq"
     ports:
@@ -50,6 +56,7 @@ services:
     expose:
       - 5000
   worker:
+    network_mode: host
     build:
       context: "."
     command: /usr/bin/supervisord -c supervisord.conf
