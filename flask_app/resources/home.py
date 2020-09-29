@@ -1,5 +1,6 @@
 from flask import Blueprint
 from ..jobs import tasks
+from ..models import TaskResult
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
@@ -15,6 +16,8 @@ def add_resource():
     result_is_ready_before_get = result.ready()
     result_get = result.get()
     result_is_ready_after_get_ready = result.ready()
+
+    TaskResult.create(result=result_get)
 
     return f"""
         RESULT:: {result}

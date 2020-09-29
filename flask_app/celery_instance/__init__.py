@@ -20,7 +20,13 @@ def create_celery_app(_app=None):
     """
     app = create_app() if not _app else _app
 
-    redis_url = os.environ['REDDIS_URL']
+    db_host = os.environ['DB_HOST']
+    db_port = os.environ['DB_PORT']
+    db_username = os.environ['DB_USERNAME']
+    db_password = os.environ['DB_PASSWORD']
+    db_name = os.environ['DB_NAME']
+
+    redis_url = os.environ['REDIS_URL']
     rabbit_mq_url = os.environ['RABBIT_MQ_URL']
 
     celery = Celery(app.import_name,
