@@ -27,7 +27,10 @@ def create_app():
 
     with app.app_context():
         from .celery_instance import set_celery_instance
+        from .redis_instance import set_redis_instance
+
         set_celery_instance(app)
+        set_redis_instance()
 
         from .ma import ma
         from .db import init_app_db, db_engine

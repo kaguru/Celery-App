@@ -2,6 +2,7 @@ from flask import g, current_app
 from celery import Celery
 
 from flask_app import create_app
+from flask_app import celeryconfig
 
 import os
 
@@ -27,13 +28,16 @@ def create_celery_app(_app=None):
     db_name = os.environ['DB_NAME']
 
     redis_url = os.environ['REDIS_URL']
+    redis_port = os.environ['REDIS_PORT']
     rabbit_mq_url = os.environ['RABBIT_MQ_URL']
 
     celery = Celery(app.import_name,
-                    backend=redis_url,
+                    backend=f"{redis_url}",
                     broker=rabbit_mq_url,
                     include=CELERY_TASK_LIST)
+    celery.config_from_object(celeryconfig)
     celery.conf.update(app.config)
+    celery.conf.task_create_missing_queues = True
     TaskBase = celery.Task
 
     class ContextTask(TaskBase):

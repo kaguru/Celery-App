@@ -40,9 +40,12 @@ services:
     deploy:
       mode: replicated
       replicas: 2
+    env_file:
+      - ".env"
     environment:
       SECRET_KEY: ${SECRET_KEY}
       REDIS_URL: ${REDIS_URL}
+      REDIS_PORT: ${REDIS_PORT}
       RABBIT_MQ_URL: ${RABBIT_MQ_URL}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
@@ -55,6 +58,7 @@ services:
       - 5000:5000
     expose:
       - 5000
+
   worker:
     network_mode: host
     build:
