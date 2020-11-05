@@ -19,9 +19,8 @@ os.makedirs(log_dir, exist_ok=True)
 file_log_handler = RotatingFileHandler(os.path.join(log_dir, 'error.log'), maxBytes=1000000, backupCount=1)
 stream_log_handler = logging.StreamHandler()
 
-# CREATE MAIL HANDLER
 
-# SET FILE, STREAM AN MAIL HANDLER LOG LEVELS
+# SET FILE, STREAM LOG LEVELS
 file_log_handler.setLevel(logging.WARN)
 # stream_log_handler.setLevel(logging.WARN)
 stream_log_handler.setLevel(logging.DEBUG)
