@@ -20,5 +20,14 @@ docker exec -it <redis_container_id> bash
 redis-cli monitor
 ```
 
+
 ## Trigger tasks
-[http://localhost:5000/add](http://localhost:5000/add)
+#### PASS
+[http://127.0.0.1:5000/add?x=4&y=7](http://127.0.0.1:5000/add?x=4&y=7)
+<br>
+[http://127.0.0.1:5000/divide?x=10&y=2](http://127.0.0.1:5000/divide?x=10&y=2)
+
+#### FAIL AFTER RETRYING
+[http://127.0.0.1:5000/add?x=4&y=R](http://127.0.0.1:5000/add?x=4&y=R)
+<br>
+[http://127.0.0.1:5000/divide?x=10&y=0](http://127.0.0.1:5000/divide?x=10&y=0)
