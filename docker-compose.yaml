@@ -58,18 +58,39 @@ services:
       - 5000:5000
     expose:
       - 5000
+    volumes:
+      - "app_logs:/logs"
 
-  worker:
+  worker-add:
     network_mode: host
     build:
       context: "."
-    command: /usr/bin/supervisord -c supervisord.conf
+    command: /usr/bin/supervisord -c supervisord_add.conf
     depends_on:
       - "web"
     env_file:
       - ".env"
     restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
     stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
+    volumes:
+      - "./logs:/logs"
+
+  worker-divide:
+    network_mode: host
+    build:
+      context: "."
+    command: /usr/bin/supervisord -c supervisord_divide.conf
+    depends_on:
+      - "web"
+    env_file:
+      - ".env"
+    restart: "${DOCKER_RESTART_POLICY:-unless-stopped}"
+    stop_grace_period: "${DOCKER_STOP_GRACE_PERIOD:-3s}"
+    volumes:
+      - "./logs:/logs"
+
 volumes:
   redis: {}
   rabbit_mq: {}
+  app_logs: {}
+  worker_logs: {}

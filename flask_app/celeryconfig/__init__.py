@@ -2,12 +2,12 @@ from kombu import Queue, Exchange
 
 CELERY_QUEUES = (
     Queue('default', Exchange('default'), routing_key='default'),
-    Queue('for_task_A', Exchange('for_task_A'), routing_key='for_task_A'),
-    Queue('for_task_B', Exchange('for_task_B'), routing_key='for_task_B'),
+    Queue('queue_add', Exchange('exchange_add'), routing_key='tasks_add'),
+    Queue('queue_divide', Exchange('exchange_divide'), routing_key='tasks_divide'),
 )
 
 
 CELERY_ROUTES = {
-    'my_taskA': {'queue': 'for_task_A', 'routing_key': 'for_task_A'},
-    'my_taskB': {'queue': 'for_task_B', 'routing_key': 'for_task_B'},
+    'tasks_add': {'queue': 'queue_add', 'routing_key': 'tasks_add'},
+    'tasks_divide': {'queue': 'queue_divide', 'routing_key': 'tasks_divide'},
 }

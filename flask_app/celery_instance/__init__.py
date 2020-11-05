@@ -21,12 +21,6 @@ def create_celery_app(_app=None):
     """
     app = create_app() if not _app else _app
 
-    db_host = os.environ['DB_HOST']
-    db_port = os.environ['DB_PORT']
-    db_username = os.environ['DB_USERNAME']
-    db_password = os.environ['DB_PASSWORD']
-    db_name = os.environ['DB_NAME']
-
     redis_url = os.environ['REDIS_URL']
     redis_port = os.environ['REDIS_PORT']
     rabbit_mq_url = os.environ['RABBIT_MQ_URL']
@@ -59,10 +53,8 @@ def get_celery_instance():
     if g:
         if "celery_instance" not in g:
             g.celery_instance = create_celery_app()
-        print(f"{'*'*70}\ng.celery_instance::{g.celery_instance}\n{'*'*70}")
         return g.celery_instance
     celery_new_instance = create_celery_app()
-    print(f"{'*' * 70}\ncelery_instance::{celery_new_instance}\n{'*' * 70}")
     return celery_new_instance
 
 

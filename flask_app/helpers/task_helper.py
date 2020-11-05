@@ -7,10 +7,8 @@ def only_one(function=None, key="", timeout=None):
     """Enforce only one celery task at a time."""
 
     def _dec(run_func):
-        """Decorator."""
 
         def _caller(*args, **kwargs):
-            """Caller."""
             ret_value = None
             have_lock = False
             lock = redis_instance.lock(key, timeout=timeout)

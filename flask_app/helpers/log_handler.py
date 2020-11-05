@@ -1,17 +1,18 @@
 from flask import current_app
 import logging
 import os
-from logging.handlers import SMTPHandler, RotatingFileHandler
+from logging.handlers import RotatingFileHandler
 from functools import wraps
 import traceback
-
+from flask_app.helpers.time_helper import get_current_kenya_time_utc
 
 # CREATE CUSTOME LOGGER
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # SET LOG FILES DESTINATIONS
-log_dir = os.path.join(current_app.instance_path, 'log')
+# logs_dir = os.path.join(current_app.instance_path, 'log')
+log_dir = 'logs'
 os.makedirs(log_dir, exist_ok=True)
 
 # CREATE HANDLERS
@@ -19,30 +20,20 @@ file_log_handler = RotatingFileHandler(os.path.join(log_dir, 'error.log'), maxBy
 stream_log_handler = logging.StreamHandler()
 
 # CREATE MAIL HANDLER
-mail_log_handler = SMTPHandler(
-    mailhost=('smtp.gmail.com', 587),
-    fromaddr='lnh123@gmail.com',
-    toaddrs='lnh123@gmail.com',
-    subject='SCORING ERROR',
-    credentials=('lnh123@gmail.com', 'G@cheru123'),
-    secure=''
-)
 
 # SET FILE, STREAM AN MAIL HANDLER LOG LEVELS
-file_log_handler.setLevel(logging.ERROR)
+file_log_handler.setLevel(logging.WARN)
 # stream_log_handler.setLevel(logging.WARN)
 stream_log_handler.setLevel(logging.DEBUG)
-mail_log_handler.setLevel(logging.ERROR)
 
 # SET HANDLERS LOG MESSAGE FORMAT
-log_message_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log_message_format = logging.Formatter(f"\n{'-'*100}\n%(asctime)s - %(name)s - %(levelname)s - %(message)s\n{'-'*100}\n")
 file_log_handler.setFormatter(log_message_format)
 stream_log_handler.setFormatter(log_message_format)
 
 # ADD HANDLERS TO LOGGER
 logger.addHandler(file_log_handler)
 logger.addHandler(stream_log_handler)
-logger.addHandler(mail_log_handler)
 
 
 # RETURN LOGGER
@@ -57,19 +48,21 @@ def exception_handler():
         @wraps(func)
         def wrapped_function(*args, **kwargs):
             try:
-                log_message = f'\n{"-" * 50}\nFUNCTION NAME :: {fxn_name}' \
-                              f'\nLOCALS ARGS() :: {locals().get("args")}' \
-                              f'\nLOCALS KWARGS() :: {locals().get("kwargs")}'
-                logger.info(log_message)
                 return func(*args, **kwargs)
             except Exception as e:
-                tb = traceback.format_exc()
-                log_message = f'\n{"-"*50}\nEXCEPT :: \nFUNCTION NAME :: {fxn_name} \nERROR CLASS :: {e.__class__}' \
-                              f'\nLOCALS ARGS() :: {locals().get("args")}' \
-                              f'\nLOCALS KWARGS() :: {locals().get("kwargs")}' \
-                              f'\nTRACEBACK ::  {tb}\n{"-"*50}\n' \
-                              f'\nTRACEBACK ::  {e}\n{"-"*50}\n'
+                log_message = get_formatted_log_message(e, *args, fxn_name, **kwargs)
                 logger.error(log_message)
                 return func(*args, **kwargs)
         return wrapped_function
     return exception_function
+
+
+def get_formatted_log_message(e, function_name, *args, **kwargs):
+    return f"""
+            FUNCTION NAME :: {function_name}
+            EXCEPTION CLASS :: {e.__class__}
+            ARGS :: {locals().get("args")}
+            KWARGS :: {locals().get("kwargs")}
+            TIME :: {get_current_kenya_time_utc()}
+            TRACEBACK ::  {traceback.format_exc()}\n{"-"*50}
+            """
