@@ -10,6 +10,8 @@ A Simple Celery Application
 docker build -t ubuntu_18_pipenv -f ./Dockerfile_base .
 docker build -t ubuntu_18_pipenv_celery -f ./Dockerfile_base_celery .
 
+# Add environmental variables .env file
+cp env_example .env
 
 # Build and Run Containers
 docker-compose build
