@@ -3,7 +3,7 @@
 A Simple Celery Application
 
 
-## Usage
+## INSTALLATION
 
 ```python
 # Build Docker Base Images
@@ -16,14 +16,9 @@ cp env_example .env
 # Build and Run Containers
 docker-compose build
 docker-compose up
-
-# Monitor RedisServer
-docker exec -it <redis_container_id> bash
-redis-cli monitor
 ```
 
-
-## Trigger tasks
+## TRIGGER TASKS
 #### PASS
 [http://127.0.0.1:5000/add?x=4&y=7](http://127.0.0.1:5000/add?x=4&y=7)
 <br>
@@ -33,3 +28,13 @@ redis-cli monitor
 [http://127.0.0.1:5000/add?x=4&y=R](http://127.0.0.1:5000/add?x=4&y=R)
 <br>
 [http://127.0.0.1:5000/divide?x=10&y=0](http://127.0.0.1:5000/divide?x=10&y=0)
+
+
+## MONITORING
+#### Monitor RedisServer
+```python
+docker exec -it <redis_container_id> bash
+redis-cli monitor
+```
+#### Monitor Tasks on Flower
+[http://localhost:8888/tasks](http://localhost:8888/tasks)
