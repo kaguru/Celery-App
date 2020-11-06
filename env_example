@@ -1,0 +1,9 @@
+COMPOSE_PROJECT_NAME=flask_celery_tasks_app
+SECRET_KEY=b'\xc5\xc2=\xed\xf5\xf1\xcfX'
+RABBITMQ_DEFAULT_USER=admin
+RABBITMQ_DEFAULT_PASS=pass
+DOCKER_RESTART_POLICY=no
+DOCKER_STOP_GRACE_PERIOD=3s
+REDIS_URL=redis://localhost
+REDIS_PORT=6379
+RABBIT_MQ_URL=pyamqp://admin:pass@localhost:5672

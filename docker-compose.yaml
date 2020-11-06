@@ -47,11 +47,6 @@ services:
       REDIS_URL: ${REDIS_URL}
       REDIS_PORT: ${REDIS_PORT}
       RABBIT_MQ_URL: ${RABBIT_MQ_URL}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
     depends_on:
       - "rabbit_mq"
     ports:
