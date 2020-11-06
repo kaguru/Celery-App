@@ -84,8 +84,26 @@ services:
     volumes:
       - "./logs:/logs"
 
+  flower:
+    network_mode: host
+    image: mher/flower:0.9.5
+    depends_on:
+      - "web"
+    environment:
+      - CELERY_ENABLE_UTC=False
+      - CELERY_TIMEZONE=Africa/Nairobi
+      - CELERY_BROKER_URL=amqp://admin:pass@localhost:5672//
+      - FLOWER_PORT=8888
+    ports:
+      - 8888:8888
+    expose:
+      - 8888
+    volumes:
+      - "flower:/data/celery-worker.py"
+
 volumes:
   redis: {}
   rabbit_mq: {}
   app_logs: {}
   worker_logs: {}
+  flower: {}

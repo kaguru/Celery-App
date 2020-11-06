@@ -4,6 +4,7 @@ WORKDIR /
 
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r requirements.txt
+RUN pip install flower
 
 COPY ./flask_app /flask_app
 COPY ./supervisord_add.conf supervisord_add.conf
