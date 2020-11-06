@@ -32,6 +32,9 @@ def create_celery_app(_app=None):
     celery.config_from_object(celeryconfig)
     celery.conf.update(app.config)
     celery.conf.task_create_missing_queues = True
+    celery.conf['CELERY_ENABLE_UTC'] = False
+    celery.conf['CELERY_TIMEZONE'] = 'Africa/Nairobi'
+
     TaskBase = celery.Task
 
     class ContextTask(TaskBase):
