@@ -37,4 +37,4 @@ docker exec -it <redis_container_id> bash
 redis-cli monitor
 ```
 #### Monitor Tasks on Flower
-[http://localhost:8888/tasks](http://localhost:8888/tasks)
+[http://127.0.0.1:8888/tasks](http://127.0.0.1:8888/tasks)
